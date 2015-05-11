@@ -5,6 +5,9 @@ UserView::UserView(QWidget *parent)
 {
     createLoginWidgets();
     createRegistrationWidgets();
+
+    userModel = new UserModel();
+
     setLoginWidgets();
     setFixedHeight(300);
     setFixedWidth(550);
@@ -15,10 +18,14 @@ UserView::~UserView()
 {
     for (auto *label: labels)
         delete label;
+
     for (auto *edit: edits)
         delete edit;
+
     for (auto *button: buttons)
         delete button;
+
+    delete userModel;
 }
 
 void UserView::createLoginWidgets()
@@ -36,6 +43,7 @@ void UserView::createLoginWidgets()
     labels[labels.size() - 1]->setObjectName("error");
     labels[labels.size() - 1]->hide();
     labels[labels.size() - 1]->setAccessibleName("login");
+
     edits.append(new QLineEdit(this));
     edits[edits.size() - 1]->setGeometry(20, 20, 150, 30);
     edits[edits.size() - 1]->hide();
@@ -45,6 +53,7 @@ void UserView::createLoginWidgets()
     edits[edits.size() - 1]->setEchoMode(QLineEdit::Password);
     edits[edits.size() - 1]->hide();
     edits[edits.size() - 1]->setAccessibleName("login");
+
     buttons.append(new QPushButton("&Sign in", this));
     buttons[buttons.size() - 1]->setGeometry(20, 90, 60, 30);
     buttons[buttons.size() - 1]->setCursor(QCursor(Qt::PointingHandCursor));
@@ -77,6 +86,7 @@ void UserView::createRegistrationWidgets()
     labels[labels.size() - 1]->setGeometry(175, 125, 120, 30);
     labels[labels.size() - 1]->hide();
     labels[labels.size() - 1]->setAccessibleName("registration");
+
     edits.append(new QLineEdit(this));
     edits[edits.size() - 1]->setGeometry(20, 20, 150, 30);
     edits[edits.size() - 1]->hide();
@@ -95,6 +105,7 @@ void UserView::createRegistrationWidgets()
     edits[edits.size() - 1]->setEchoMode(QLineEdit::Password);
     edits[edits.size() - 1]->hide();
     edits[edits.size() - 1]->setAccessibleName("registration");
+
     buttons.append(new QPushButton("&Create", this));
     buttons[buttons.size() - 1]->setGeometry(20, 160, 60, 30);
     buttons[buttons.size() - 1]->setCursor(QCursor(Qt::PointingHandCursor));
@@ -111,7 +122,6 @@ void UserView::createRegistrationWidgets()
 
 void UserView::slotLogin()
 {
-
 }
 
 void UserView::slotToLogin()
@@ -121,7 +131,6 @@ void UserView::slotToLogin()
 
 void UserView::slotRegistration()
 {
-
 }
 
 void UserView::slotToRegistration()
@@ -143,18 +152,17 @@ void UserView::setWidgetsByName(const QString &name)
 {
     for (auto *label: labels)
         setVisibleByName(label, name);
+
     for (auto *edit: edits)
         setVisibleByName(edit, name);
+
     for (auto *button: buttons)
         setVisibleByName(button, name);
 }
 
 void UserView::setVisibleByName(QWidget *widget, const QString &name)
 {
-    if (widget->accessibleName() == name)
-        widget->show();
-    else
-        widget->hide();
+    widget->setVisible(widget->accessibleName() == name);
 }
 
 const QString UserView::getStyles() const

@@ -7,6 +7,8 @@
 #include <QLineEdit>
 #include <QPushButton>
 
+#include "usermodel.h"
+
 class UserView : public QTableView
 {
     Q_OBJECT
@@ -14,6 +16,7 @@ private:
     QVector<QLabel *> labels;
     QVector<QLineEdit *> edits;
     QVector<QPushButton *> buttons;
+    UserModel *userModel;
     void createLoginWidgets();
     void createRegistrationWidgets();
     void setLoginWidgets();
